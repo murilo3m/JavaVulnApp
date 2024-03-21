@@ -3,8 +3,8 @@ package br.com.advocacia.service.usuario;
 
 import br.com.advocacia.entities.Usuario;
 import br.com.advocacia.repository.UsuarioRepository;
-import br.com.advocacia.config.security.Pass;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,11 +14,11 @@ import java.util.Optional;
 public class UsuarioServiceImpl implements IUsuarioService{
 
     final UsuarioRepository usuarioRepository;
-    final Pass pass;
+    final PasswordEncoder passwordEncoder;
 
-    public UsuarioServiceImpl(UsuarioRepository usuarioRepository, Pass pass) {
+    public UsuarioServiceImpl(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
-        this.pass = pass;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -53,6 +53,6 @@ public class UsuarioServiceImpl implements IUsuarioService{
 
     @Override
     public boolean verifyPassword(String password, Usuario usuario){
-        return pass.matches(password, usuario.getSenha());
+        return passwordEncoder.matches(password, usuario.getSenha());
     }
 }
